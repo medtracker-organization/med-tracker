@@ -55,7 +55,7 @@ export default function AddMedicationModal({ open, onClose, onSave }) {
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
-      <div className="w-[90%] max-w-md bg-[#1B2559] p-6 rounded-2xl shadow-xl border border-white/10 animate-fadeIn">
+      <div className="w-[90%] max-w-md bg-[#1B2559] p-6 rounded-2xl shadow-xl border border-white/10 animate-modalIn">
         <h2 className="text-xl font-semibold text-white font-PolySans">
           Ajouter un médicament
         </h2>
@@ -97,7 +97,7 @@ export default function AddMedicationModal({ open, onClose, onSave }) {
             <label className="text-white">Heures de prise :</label>
             <div className="space-y-3 mt-2">
               {hours.map((h, i) => (
-                <div key={i} className="flex items-center space-x-3">
+                <div key={i} className="flex items-center space-x-3 animate-modalIn">
                   <input
                     type="time"
                     required

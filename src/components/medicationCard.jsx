@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogActions,
   Button,
+  Grow,
 } from "@mui/material";
 import DeleteSvg from "./deleteSvg";
 
@@ -17,8 +18,13 @@ export default function MedicationCard({ medication, onCheck, onDelete }) {
   };
 
   return (
-    <div className="bg-[#0f1535] border border-[#8F9BBA]/20 p-4 rounded-xl mb-4">
-      <Dialog open={openConfirm} onClose={() => setOpenConfirm(false)}>
+    <div className="bg-[#0f1535] border border-[#8F9BBA]/20 p-4 rounded-xl mb-4 animate-modalIn">
+      <Dialog
+        open={openConfirm}
+        onClose={() => setOpenConfirm(false)}
+        TransitionComponent={Grow}
+        transitionDuration={300}
+      >
         <DialogTitle>Supprimer</DialogTitle>
         <DialogContent>
           Voulez-vous vraiment supprimer ce médicament ?
@@ -33,7 +39,7 @@ export default function MedicationCard({ medication, onCheck, onDelete }) {
 
       <div className="flex justify-between items-center">
         <div>
-          <h3 className="text-lg text-white font-PolySans">
+          <h3 className="text-lg text-white font-PolySans mb-1">
             {medication.name}
           </h3>
           <p className="text-[#A3AED0] text-sm">
@@ -50,6 +56,7 @@ export default function MedicationCard({ medication, onCheck, onDelete }) {
         {medication.hours.sort().map((hour) => {
           const done = medication.taken.includes(hour);
 
+          // pour les prises en retard
           const isLate = () => {
             const now = new Date();
             const [h, m] = hour.split(":").map(Number);
@@ -76,9 +83,9 @@ export default function MedicationCard({ medication, onCheck, onDelete }) {
 
               <button
                 onClick={() => onCheck(medication.id, hour)}
-                className={`text-xs px-3 py-1 rounded-lg ${
+                className={`text-xs px-3 py-1 rounded-lg text-white transition-all duration-900 transform active:scale-205 hover:opacity-90  ${
                   done ? "bg-green-600" : "bg-[#4318FF]"
-                } text-white`}
+                }`}
               >
                 {done ? "Fait" : "À faire"}
               </button>
