@@ -5,8 +5,6 @@ import AddMedicationModal from "../components/addMedicationModal";
 import {
   Snackbar,
   Alert,
-  ToggleButtonGroup,
-  ToggleButton,
 } from "@mui/material";
 
 export default function Home() {
@@ -15,7 +13,7 @@ export default function Home() {
   const [toast, setToast] = useState({ open: false, message: "" });
 
   const addMedication = (med) => {
-    setMedications([...medications, med]);
+    setMedications([med, ...medications]);
     setToast({ open: true, message: "Médicament ajouté !" });
   };
 
@@ -39,6 +37,21 @@ export default function Home() {
     );
   };
 
+  const today = new Date().toISOString().split("T")[0];
+  const medsToday = medications.filter((m) =>
+    m.hours.some((h) => {
+      const [hour, min] = h.split(":");
+      const now = new Date();
+      const medTime = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        hour,
+        min
+      );
+      return medTime.toDateString() === now.toDateString();
+    })
+  );
   return (
     <div className="min-h-screen bg-[#1B2559] p-5">
       <div className="max-w-xl mx-auto">
@@ -54,12 +67,12 @@ export default function Home() {
         </header>
 
         <div>
-          {medications.length === 0 ? (
+          {medsToday.length === 0 ? (
             <p className="text-[#8F9BBA] text-center mt-20">
-              Aucun médicament. Cliquez sur "Ajouter".
+              Aucun médicament pour aujourd’hui. Cliquez sur "Ajouter".
             </p>
           ) : (
-            medications.map((m) => (
+            medsToday.map((m) => (
               <MedicationCard
                 key={m.id}
                 medication={m}

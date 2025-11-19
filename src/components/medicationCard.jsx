@@ -15,10 +15,9 @@ export default function MedicationCard({ medication, onCheck, onDelete }) {
     setOpenConfirm(false);
     onDelete(medication.id);
   };
+
   return (
     <div className="bg-[#0f1535] border border-[#8F9BBA]/20 p-4 rounded-xl mb-4">
-
-      {/* dialogue de confirmation */}
       <Dialog open={openConfirm} onClose={() => setOpenConfirm(false)}>
         <DialogTitle>Supprimer</DialogTitle>
         <DialogContent>
@@ -41,27 +40,35 @@ export default function MedicationCard({ medication, onCheck, onDelete }) {
             {medication.dose} — {medication.frequency}x/jour
           </p>
         </div>
-        <button
-          type="button"
-           onClick={() => setOpenConfirm(true)}
-          className=""
-        >
+
+        <button onClick={() => setOpenConfirm(true)}>
           <DeleteSvg />
         </button>
       </div>
 
       <div className="mt-3 space-y-2">
-        {medication.hours
-        .sort((a, b) => a.localeCompare(b))
-        .map((hour) => {
+        {medication.hours.sort().map((hour) => {
           const done = medication.taken.includes(hour);
+
+          const isLate = () => {
+            const now = new Date();
+            const [h, m] = hour.split(":").map(Number);
+
+            const medTime = new Date();
+            medTime.setHours(h, m, 0);
+
+            return medTime < now && !done;
+          };
 
           return (
             <div
               key={hour}
-              className={`flex justify-between items-center p-3 rounded-lg ${
+              className={`flex justify-between items-center p-3 rounded-lg 
+              ${
                 done
                   ? "bg-green-500/20 border border-green-400/30"
+                  : isLate()
+                  ? "bg-red-500/10 border border-red-500/40"
                   : "bg-[#1B2559] border border-[#8F9BBA]/10"
               }`}
             >
@@ -70,8 +77,8 @@ export default function MedicationCard({ medication, onCheck, onDelete }) {
               <button
                 onClick={() => onCheck(medication.id, hour)}
                 className={`text-xs px-3 py-1 rounded-lg ${
-                  done ? "bg-green-600 text-white" : "bg-[#4318FF] text-white"
-                }`}
+                  done ? "bg-green-600" : "bg-[#4318FF]"
+                } text-white`}
               >
                 {done ? "Fait" : "À faire"}
               </button>

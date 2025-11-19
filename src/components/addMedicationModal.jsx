@@ -38,12 +38,13 @@ export default function AddMedicationModal({ open, onClose, onSave }) {
     const data = new FormData(e.target);
 
     const med = {
-      id: Date.now(),
+      id: crypto.randomUUID(),
       name: data.get("name"),
       dose: data.get("dose"),
       frequency: data.get("frequency"),
       hours,
       taken: [],
+      createdAt: Date.now(),
     };
 
     onSave(med);
