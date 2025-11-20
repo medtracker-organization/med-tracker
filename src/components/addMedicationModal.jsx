@@ -3,7 +3,6 @@ import DeleteSvg from "./deleteSvg";
 
 export default function AddMedicationModal({ open, onClose, onSave }) {
   const [hours, setHours] = useState([""]);
-
   const [formData, setFormData] = useState({
     name: "",
     dose: "",
@@ -31,12 +30,9 @@ export default function AddMedicationModal({ open, onClose, onSave }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // validation
     if (!formData.name || !formData.dose) return;
 
     const data = new FormData(e.target);
-
     const med = {
       id: crypto.randomUUID(),
       name: data.get("name"),
@@ -55,7 +51,7 @@ export default function AddMedicationModal({ open, onClose, onSave }) {
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
-      <div className="w-[90%] max-w-md bg-[#1B2559] p-6 rounded-2xl shadow-xl border border-white/10 animate-modalIn">
+      <div className="w-[90%] max-w-md bg-[#1B2559] max-h-[90vh] overflow-y-auto p-6 rounded-2xl shadow-xl border border-white/10 animate-modalIn">
         <h2 className="text-xl font-semibold text-white font-PolySans">
           Ajouter un médicament
         </h2>

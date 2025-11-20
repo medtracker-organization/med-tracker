@@ -37,21 +37,15 @@ export default function Home() {
     );
   };
 
-  const today = new Date().toISOString().split("T")[0];
-  const medsToday = medications.filter((m) =>
-    m.hours.some((h) => {
-      const [hour, min] = h.split(":");
-      const now = new Date();
-      const medTime = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate(),
-        hour,
-        min
-      );
-      return medTime.toDateString() === now.toDateString();
-    })
-  );
+  const now = new Date();
+  const todayStr = now.toISOString().split("T")[0];
+  
+  // filtrage pour afficher uniquement les prises de la journée
+  const medsToday = medications.filter((m) => {
+    const medDateStr = new Date(m.createdAt).toISOString().split("T")[0];
+    if (medDateStr === todayStr) return true;
+  });
+
   return (
     <div className="min-h-screen bg-[#1B2559] p-5">
       <div className="max-w-xl mx-auto">

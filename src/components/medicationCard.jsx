@@ -56,7 +56,7 @@ export default function MedicationCard({ medication, onCheck, onDelete }) {
         {medication.hours.sort().map((hour) => {
           const done = medication.taken.includes(hour);
 
-          // pour les prises en retard
+          // rend la bordure rouge pour les prises en retard
           const isLate = () => {
             const now = new Date();
             const [h, m] = hour.split(":").map(Number);
